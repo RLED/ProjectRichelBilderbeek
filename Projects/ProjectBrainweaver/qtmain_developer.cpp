@@ -1,4 +1,4 @@
-#define TODO_RICHEL
+#define TODO_ARLETTE
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
@@ -12,7 +12,13 @@
 #include <QIcon>
 #include <QVBoxLayout>
 
-//#define TODO_COEN
+#ifdef TODO_ARLETTE
+#include "fileio.h"
+#include "pvdbfile.h"
+#include "pvdbfilefactory.h"
+#include "qtpvdbprintconceptmapdialog.h"
+#endif
+
 #ifdef TODO_COEN
 #include <pvdbfile.h>
 #include <pvdbfilefactory.h>
@@ -93,6 +99,19 @@ int main(int argc, char *argv[])
   //QtPvdbMenuDialog::Test();
   a.setStyleSheet(CreateStyleSheet().c_str());
   a.setWindowIcon(QIcon(":/images/R.png"));
+
+
+  #ifdef TODO_ARLETTE
+  {
+    const std::string filename = "1." + ribi::pvdb::File::GetFilenameExtension();
+    assert(ribi::fileio::FileIo().IsRegularFile(filename));
+    const boost::shared_ptr<ribi::pvdb::File> file = ribi::pvdb::File::Load(filename);
+    assert(file);
+    ribi::pvdb::QtPvdbPrintConceptMapDialog d(file);
+    d.exec();
+  }
+  assert(1==2 && "Arlette not interested in the rest");
+  #endif
 
   #ifdef TODO_COEN
   {
